@@ -1,0 +1,25 @@
+kubectl logs efs-csi-node-4pq7n -n kube-system efs-plugin
+
+I0727 11:36:23.070376       1 mount_linux.go:163] Cannot run systemd-run, assuming non-systemd OS
+I0727 11:36:23.070459       1 mount_linux.go:164] systemd-run failed with: exit status 1
+I0727 11:36:23.070469       1 mount_linux.go:165] systemd-run output: Failed to create bus connection: No such file or directory
+I0727 11:36:23.070632       1 driver.go:87] Starting watchdog
+I0727 11:36:23.070710       1 efs_watch_dog.go:179] Skip copying /etc/amazon/efs/efs-utils.conf since it exists already
+I0727 11:36:23.070723       1 efs_watch_dog.go:179] Skip copying /etc/amazon/efs/efs-utils.crt since it exists already
+I0727 11:36:23.071143       1 driver.go:93] Staring subreaper
+I0727 11:36:23.071153       1 driver.go:96] Listening for connections on address: &net.UnixAddr{Name:"/csi/csi.sock", Net:"unix"}
+E0727 11:36:24.065753       1 efs_watch_dog.go:287] amazon-efs-mount-watchdog[Error]: Clients allowed=512000
+stunnel 4.56 on x86_64-koji-linux-gnu platform
+Compiled/running with OpenSSL 1.0.2k-fips  26 Jan 2017
+Threading:PTHREAD Sockets:POLL,IPv6 SSL:ENGINE,OCSP,FIPS Auth:LIBWRAP
+Reading configuration from file /var/run/efs/stunnel-config.fs-405778c3.var.lib.kubelet.pods.eb8d34ca-75b0-4ab1-94e8-a62c5cc27840.volumes.kubernetes.io~csi.data-jenkins-x-postgresql-0.mount.20278
+FIPS mode is disabled
+Compression not enabled
+PRNG seeded successfully
+Initializing service [efs]
+/etc/amazon/efs/privateKey.pem: No such file or directory (2)
+Service [efs]: Failed to initialize SSL context
+str_stats: 14 block(s), 1285 data byte(s), 812 control byte(s)
+I0727 11:36:24.385231       1 node.go:242] NodeGetInfo: called with args 
+
+

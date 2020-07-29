@@ -1,0 +1,365 @@
+kubectl describe po efs-csi-node-4pq7n -n kube-system
+
+Name:                 efs-csi-node-4pq7n
+Namespace:            kube-system
+Priority:             2000001000
+Priority Class Name:  system-node-critical
+Node:                 ip-10-63-255-191.ec2.internal/10.63.255.191
+Start Time:           Mon, 27 Jul 2020 11:36:22 +0000
+Labels:               app=efs-csi-node
+                      controller-revision-hash=57b4b47d86
+                      pod-template-generation=1
+Annotations:          kubernetes.io/psp: eks.privileged
+Status:               Running
+IP:                   10.63.255.191
+IPs:                  <none>
+Controlled By:        DaemonSet/efs-csi-node
+Containers:
+  efs-plugin:
+    Container ID:  docker://7818001cea1f3810727e92710eae79d5e890a8dc868913152373f473a38c5746
+    Image:         amazon/aws-efs-csi-driver:v1.0.0
+    Image ID:      docker-pullable://amazon/aws-efs-csi-driver@sha256:94924e549150a9cec08912f8e7a44c9625e0de9cc4544c0c8d9fef48b1029acf
+    Port:          9809/TCP
+    Host Port:     9809/TCP
+    Args:
+      --endpoint=$(CSI_ENDPOINT)
+      --logtostderr
+      --v=5
+    State:          Running
+      Started:      Mon, 27 Jul 2020 11:36:23 +0000
+    Ready:          True
+    Restart Count:  0
+    Liveness:       http-get http://:healthz/healthz delay=10s timeout=3s period=2s #success=1 #failure=5
+    Environment:
+      CSI_ENDPOINT:  unix:/csi/csi.sock
+    Mounts:
+      /csi from plugin-dir (rw)
+      /var/lib/kubelet from kubelet-dir (rw)
+      /var/run/efs from efs-state-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-gtr48 (ro)
+  csi-driver-registrar:
+    Container ID:  docker://d859e974df222ad5c8c8fa6977b2703c6b627f0e7c59d45e6ef92568ac44684c
+    Image:         quay.io/k8scsi/csi-node-driver-registrar:v1.3.0
+    Image ID:      docker-pullable://quay.io/k8scsi/csi-node-driver-registrar@sha256:9622c6a6dac7499a055a382930f4de82905a3c5735c0753f7094115c9c871309
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      --csi-address=$(ADDRESS)
+      --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+      --v=5
+    State:          Running
+      Started:      Mon, 27 Jul 2020 11:36:23 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      ADDRESS:               /csi/csi.sock
+      DRIVER_REG_SOCK_PATH:  /var/lib/kubelet/plugins/efs.csi.aws.com/csi.sock
+      KUBE_NODE_NAME:         (v1:spec.nodeName)
+    Mounts:
+      /csi from plugin-dir (rw)
+      /etc/amazon/efs from efs-utils-config (rw)
+      /registration from registration-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-gtr48 (ro)
+  liveness-probe:
+    Container ID:  docker://cc7dc5e9a1fc304cc1c26c77745f80c23be0d1e98bd33791e8e0132345cff75a
+    Image:         quay.io/k8scsi/livenessprobe:v2.0.0
+    Image ID:      docker-pullable://quay.io/k8scsi/livenessprobe@sha256:ff8c925b509ebfcf0487e877a2722f87c01632f8d0c5c7eda94c66959542d290
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      --csi-address=/csi/csi.sock
+      --health-port=9809
+    State:          Running
+      Started:      Mon, 27 Jul 2020 11:36:23 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /csi from plugin-dir (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-gtr48 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             True 
+  ContainersReady   True 
+  PodScheduled      True 
+Volumes:
+  kubelet-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/kubelet
+    HostPathType:  Directory
+  registration-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/kubelet/plugins_registry/
+    HostPathType:  Directory
+  plugin-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/lib/kubelet/plugins/efs.csi.aws.com/
+    HostPathType:  DirectoryOrCreate
+  efs-state-dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/run/efs
+    HostPathType:  DirectoryOrCreate
+  efs-utils-config:
+    Type:          HostPath (bare host directory volume)
+    Path:          /etc/amazon/efs
+    HostPathType:  DirectoryOrCreate
+  default-token-gtr48:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-gtr48
+    Optional:    false
+QoS Class:       BestEffort
+Node-Selectors:  kubernetes.io/arch=amd64
+                 kubernetes.io/os=linux
+Tolerations:     
+                 node.kubernetes.io/disk-pressure:NoSchedule
+                 node.kubernetes.io/memory-pressure:NoSchedule
+                 node.kubernetes.io/network-unavailable:NoSchedule
+                 node.kubernetes.io/not-ready:NoExecute
+                 node.kubernetes.io/pid-pressure:NoSchedule
+                 node.kubernetes.io/unreachable:NoExecute
+                 node.kubernetes.io/unschedulable:NoSchedule
+Events:          <none>
+
+
+kubectl get po efs-csi-node-4pq7n -n kube-system -o yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/psp: eks.privileged
+  creationTimestamp: "2020-07-27T11:36:22Z"
+  generateName: efs-csi-node-
+  labels:
+    app: efs-csi-node
+    controller-revision-hash: 57b4b47d86
+    pod-template-generation: "1"
+  name: efs-csi-node-4pq7n
+  namespace: kube-system
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: DaemonSet
+    name: efs-csi-node
+    uid: 2a357586-c6d2-4989-aa13-1b82aa6bc0bd
+  resourceVersion: "13173722"
+  selfLink: /api/v1/namespaces/kube-system/pods/efs-csi-node-4pq7n
+  uid: 58c81f95-4858-45cf-afb3-8f07cf65a0bf
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchFields:
+          - key: metadata.name
+            operator: In
+            values:
+            - ip-10-63-255-191.ec2.internal
+  containers:
+  - args:
+    - --endpoint=$(CSI_ENDPOINT)
+    - --logtostderr
+    - --v=5
+    env:
+    - name: CSI_ENDPOINT
+      value: unix:/csi/csi.sock
+    image: amazon/aws-efs-csi-driver:v1.0.0
+    imagePullPolicy: IfNotPresent
+    livenessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /healthz
+        port: healthz
+        scheme: HTTP
+      initialDelaySeconds: 10
+      periodSeconds: 2
+      successThreshold: 1
+      timeoutSeconds: 3
+    name: efs-plugin
+    ports:
+    - containerPort: 9809
+      hostPort: 9809
+      name: healthz
+      protocol: TCP
+    resources: {}
+    securityContext:
+      privileged: true
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/lib/kubelet
+      mountPropagation: Bidirectional
+      name: kubelet-dir
+    - mountPath: /csi
+      name: plugin-dir
+    - mountPath: /var/run/efs
+      name: efs-state-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-gtr48
+      readOnly: true
+  - args:
+    - --csi-address=$(ADDRESS)
+    - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+    - --v=5
+    env:
+    - name: ADDRESS
+      value: /csi/csi.sock
+    - name: DRIVER_REG_SOCK_PATH
+      value: /var/lib/kubelet/plugins/efs.csi.aws.com/csi.sock
+    - name: KUBE_NODE_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: spec.nodeName
+    image: quay.io/k8scsi/csi-node-driver-registrar:v1.3.0
+    imagePullPolicy: IfNotPresent
+    name: csi-driver-registrar
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /csi
+      name: plugin-dir
+    - mountPath: /registration
+      name: registration-dir
+    - mountPath: /etc/amazon/efs
+      name: efs-utils-config
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-gtr48
+      readOnly: true
+  - args:
+    - --csi-address=/csi/csi.sock
+    - --health-port=9809
+    image: quay.io/k8scsi/livenessprobe:v2.0.0
+    imagePullPolicy: IfNotPresent
+    name: liveness-probe
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /csi
+      name: plugin-dir
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-gtr48
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  hostNetwork: true
+  nodeName: ip-10-63-255-191.ec2.internal
+  nodeSelector:
+    kubernetes.io/arch: amd64
+    kubernetes.io/os: linux
+  priority: 2000001000
+  priorityClassName: system-node-critical
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/disk-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/memory-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/pid-pressure
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/unschedulable
+    operator: Exists
+  - effect: NoSchedule
+    key: node.kubernetes.io/network-unavailable
+    operator: Exists
+  volumes:
+  - hostPath:
+      path: /var/lib/kubelet
+      type: Directory
+    name: kubelet-dir
+  - hostPath:
+      path: /var/lib/kubelet/plugins_registry/
+      type: Directory
+    name: registration-dir
+  - hostPath:
+      path: /var/lib/kubelet/plugins/efs.csi.aws.com/
+      type: DirectoryOrCreate
+    name: plugin-dir
+  - hostPath:
+      path: /var/run/efs
+      type: DirectoryOrCreate
+    name: efs-state-dir
+  - hostPath:
+      path: /etc/amazon/efs
+      type: DirectoryOrCreate
+    name: efs-utils-config
+  - name: default-token-gtr48
+    secret:
+      defaultMode: 420
+      secretName: default-token-gtr48
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2020-07-27T11:36:22Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2020-07-27T11:36:23Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2020-07-27T11:36:23Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2020-07-27T11:36:22Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://d859e974df222ad5c8c8fa6977b2703c6b627f0e7c59d45e6ef92568ac44684c
+    image: quay.io/k8scsi/csi-node-driver-registrar:v1.3.0
+    imageID: docker-pullable://quay.io/k8scsi/csi-node-driver-registrar@sha256:9622c6a6dac7499a055a382930f4de82905a3c5735c0753f7094115c9c871309
+    lastState: {}
+    name: csi-driver-registrar
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: "2020-07-27T11:36:23Z"
+  - containerID: docker://7818001cea1f3810727e92710eae79d5e890a8dc868913152373f473a38c5746
+    image: amazon/aws-efs-csi-driver:v1.0.0
+    imageID: docker-pullable://amazon/aws-efs-csi-driver@sha256:94924e549150a9cec08912f8e7a44c9625e0de9cc4544c0c8d9fef48b1029acf
+    lastState: {}
+    name: efs-plugin
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: "2020-07-27T11:36:23Z"
+  - containerID: docker://cc7dc5e9a1fc304cc1c26c77745f80c23be0d1e98bd33791e8e0132345cff75a
+    image: quay.io/k8scsi/livenessprobe:v2.0.0
+    imageID: docker-pullable://quay.io/k8scsi/livenessprobe@sha256:ff8c925b509ebfcf0487e877a2722f87c01632f8d0c5c7eda94c66959542d290
+    lastState: {}
+    name: liveness-probe
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: "2020-07-27T11:36:23Z"
+  hostIP: 10.63.255.191
+  phase: Running
+  podIP: 10.63.255.191
+  qosClass: BestEffort
+  startTime: "2020-07-27T11:36:22Z"
+
+

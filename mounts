@@ -1,0 +1,5 @@
+kubectl exec efs-csi-node-4pq7n -n kube-system -c efs-plugin -- mount |grep nfs 
+
+127.0.0.1:/ on /var/lib/kubelet/pods/eb8d34ca-75b0-4ab1-94e8-a62c5cc27840/volumes/kubernetes.io~csi/data-jenkins-x-postgresql-0/mount type nfs4 (rw,relatime,vers=4.1,rsize=1048576,wsize=1048576,namlen=255,hard,noresvport,proto=tcp,port=20278,timeo=600,retrans=2,sec=sys,clientaddr=127.0.0.1,local_lock=none,addr=127.0.0.1)
+
+
